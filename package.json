@@ -1,0 +1,35 @@
+{
+  "name": "stackoverflow-clone",
+  "version": "1.0.0",
+  "description": "Stackoverflow-clone is a platform where people can ask questions and provide answers.",
+  "main": "app.js",
+  "scripts": {
+    "start": "babel-node server/app.js",
+    "dev": "nodemon server/app.js --exec babel-node",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fejiroofficial/stackoverflow-clone.git"
+  },
+  "author": "Fejiro Gospel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fejiroofficial/stackoverflow-clone/issues"
+  },
+  "homepage": "https://github.com/fejiroofficial/stackoverflow-clone#readme",
+  "dependencies": {
+    "eslint": "^6.5.1",
+    "eslint-config-airbnb": "^18.0.1",
+    "express": "^4.17.1",
+    "mongoose": "^5.7.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3"
+  }
+}
