@@ -1,9 +1,12 @@
+import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
 import dbConfig from './config/config.js';
+import router from './routes';
 
 
 const app = express();
+dotenv.config();
 
 app.use(express.json());
 
@@ -15,6 +18,8 @@ app.get('/', (req, res) => {
       message: "Welcome to stackoverflow-clone"
     });
   });
+
+app.use('/api/v1', router);
 
 mongoose.Promise = global.Promise;
 
