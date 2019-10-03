@@ -10,4 +10,9 @@ router.post('/auth/signup',
     validations.validationHandler,
     UserController.signup);
 
+router.post('/auth/login',
+    validations.validateLogin,
+    validations.validationHandler,
+    UserController.login);
+
 export default router;

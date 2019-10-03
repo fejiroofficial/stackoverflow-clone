@@ -7,12 +7,7 @@ const validateLogin = [
         .withMessage('Email is required but none provided.')
         .normalizeEmail({ all_lowercase: true })
         .isEmail()
-        .withMessage('Invalid email address provided.')
-        .custom(value => {
-            return User.findOne({ email: value }).then(user => {
-                if (user) return Promise.reject('E-mail already in use');
-            });
-        }),
+        .withMessage('Invalid email address provided.'),
     body('password')
         .exists()
         .withMessage('User password must be provided.')
@@ -27,7 +22,17 @@ const validateSignup = [
     body('lastName')
         .exists()
         .withMessage('Last name is required but none provided'),
-    validateLogin[0],
+    body('email')
+        .exists()
+        .withMessage('Email is required but none provided.')
+        .normalizeEmail({ all_lowercase: true })
+        .isEmail()
+        .withMessage('Invalid email address provided.')
+        .custom(value => {
+            return User.findOne({ email: value }).then(user => {
+                if (user) return Promise.reject('E-mail already in use');
+            });
+        }),
     validateLogin[1],
 
 ];
@@ -43,6 +48,7 @@ const validationHandler = (req, res, next) => {
 
 const validations = {
     validateSignup,
+    validateLogin,
     validationHandler
 };
 

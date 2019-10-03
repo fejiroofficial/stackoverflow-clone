@@ -44,4 +44,15 @@ userSchema.pre('save', async function save(next) {
     }
 });
 
+
+userSchema.methods.comparePassword = function(passwordReq, userPassword) {
+    const allowEntry = bcrypt.compareSync(passwordReq, userPassword);
+    if (!allowEntry) {
+      return res.status(401).json({
+        success: 'false',
+        message: 'You have entered an invalid email or password',
+      });
+    }
+};
+
 module.exports = mongoose.model('User', userSchema);
