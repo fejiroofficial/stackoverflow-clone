@@ -48,6 +48,13 @@ const validatePostQuestion = [
 
 ];
 
+
+const validatePostAnswer = [
+    body('answer')
+        .exists()
+        .withMessage('Please provide an answer to this question'),
+];
+
 const validationHandler = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -61,6 +68,7 @@ const validations = {
     validateSignup,
     validateLogin,
     validatePostQuestion,
+    validatePostAnswer,
     validationHandler
 };
 

@@ -1,13 +1,8 @@
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
-const questionSchema = Schema({
-    title: {
-        type: String,
-        required: true,
-        maxlength: 50
-    },
-    description: {
+const answerSchema = Schema({
+    answer: {
         type: String,
         required: true,
     },
@@ -15,8 +10,12 @@ const questionSchema = Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
+    question: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Question'
+    },
 }, {
     timestamps: true
 });
 
-module.exports = mongoose.model('Question', questionSchema);
+module.exports = mongoose.model('Answer', answerSchema);

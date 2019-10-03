@@ -45,15 +45,6 @@ static getAllQuestions(req, res) {
         });
     });
 }
-
-  /**
- * @function postAnswer
- * @memberof QuestionController
- * @static
- */
-static postAnswer(req, res) {
-    //
-}
 }
 
 export default QuestionController;
