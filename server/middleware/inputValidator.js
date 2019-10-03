@@ -37,6 +37,17 @@ const validateSignup = [
 
 ];
 
+
+const validatePostQuestion = [
+    body('title')
+        .exists()
+        .withMessage('The title of your question is required but none provided'),
+    body('description')
+        .exists()
+        .withMessage('The description of your question is required but none provided'),
+
+];
+
 const validationHandler = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -49,6 +60,7 @@ const validationHandler = (req, res, next) => {
 const validations = {
     validateSignup,
     validateLogin,
+    validatePostQuestion,
     validationHandler
 };
 
