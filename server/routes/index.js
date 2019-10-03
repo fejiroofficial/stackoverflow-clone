@@ -1,8 +1,8 @@
 import express from 'express';
 import UserController from '../controllers/users';
 import QuestionController from '../controllers/questions';
+import AnswerController from '../controllers/answers';
 import validations from '../middleware/inputValidator';
-import validatePostQuestion from '../middleware/inputValidator';
 import verifyToken from '../middleware/verifyToken';
 
 
@@ -29,7 +29,10 @@ router.post('/questions',
     QuestionController.postQuestion);
 
 // router.delete('/questions/:id', questionCtrl.deleteQuestion);
-router.post('/questions/:id/answers' , QuestionController.postAnswer);
+router.post('/questions/:id/answers',
+    validations.validatePostAnswer,
+    validations.validationHandler,
+    AnswerController.postAnswer);
 // router.put('/questions/:id/answers/:id', middlewares.validatePostAnswer, questionCtrl.updateAnswer);
 
 export default router;
