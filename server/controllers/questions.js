@@ -11,8 +11,9 @@ class QuestionController {
 static postQuestion(req, res) {
     const { body: { title, description } } = req;
     try {
-      Question.create({ title, description })
+      Question.create({ title, description, user: req.user})
         .then(data => {
+          data.user.password = undefined;
           return res.status(201).json({
             success: true,
             message: 'Question has been posted on the channel',
@@ -32,7 +33,17 @@ static postQuestion(req, res) {
  * @static
  */
 static getAllQuestions(req, res) {
-    //
+    Question.find()
+    .then(questions => {
+        return res.status(200).json({
+            success: true,
+            data: questions
+          });
+    }).catch(err => {
+        res.status(500).send({
+            message: err.message || "Some error occurred while retrieving questions."
+        });
+    });
 }
 
   /**

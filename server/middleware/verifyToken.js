@@ -51,6 +51,7 @@ const verifyToken = (req, res, next) => {
           message: 'Invalid user authorization token',
         });
       }
+      req.user = user;
       req.userId = decoded.id;
       req.isAdmin = decoded.isAdmin;
       return next();
