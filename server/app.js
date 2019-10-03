@@ -12,6 +12,8 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
+app.use('/api/v1', router);
+
 app.get('/', (req, res) => {
     res.status(200).json({
       success: "true",
@@ -19,7 +21,7 @@ app.get('/', (req, res) => {
     });
   });
 
-app.use('/api/v1', router);
+// app.use('/api/v1', router);
 
 mongoose.Promise = global.Promise;
 
