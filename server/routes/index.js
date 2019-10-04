@@ -31,8 +31,15 @@ router.post('/questions',
 // router.delete('/questions/:id', questionCtrl.deleteQuestion);
 router.post('/questions/:id/answers',
     validations.validatePostAnswer,
+    validations.validateParam,
     validations.validationHandler,
     AnswerController.postAnswer);
+
+router.post('/questions/:id/votes',
+    validations.validatePostVote,
+    validations.validateParam,
+    validations.validationHandler,
+    QuestionController.voteQuestion);
 // router.put('/questions/:id/answers/:id', middlewares.validatePostAnswer, questionCtrl.updateAnswer);
 
 export default router;

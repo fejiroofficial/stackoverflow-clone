@@ -1,15 +1,17 @@
 import { body, validationResult } from 'express-validator';
 import User from '../models/user';
 
+var ObjectId = require('mongodb').ObjectId;
+
 const validateLogin = [
     body('email')
-        .exists()
+        .not().isEmpty()
         .withMessage('Email is required but none provided.')
         .normalizeEmail({ all_lowercase: true })
         .isEmail()
         .withMessage('Invalid email address provided.'),
     body('password')
-        .exists()
+        .not().isEmpty()
         .withMessage('User password must be provided.')
         .isLength({ min: 5 })
         .withMessage('Password should be a least 5 characters long')
@@ -17,13 +19,13 @@ const validateLogin = [
 
 const validateSignup = [
     body('firstName')
-        .exists()
+        .not().isEmpty()
         .withMessage('First name is required but none provided'),
     body('lastName')
-        .exists()
+        .not().isEmpty()
         .withMessage('Last name is required but none provided'),
     body('email')
-        .exists()
+        .not().isEmpty()
         .withMessage('Email is required but none provided.')
         .normalizeEmail({ all_lowercase: true })
         .isEmail()
@@ -40,10 +42,10 @@ const validateSignup = [
 
 const validatePostQuestion = [
     body('title')
-        .exists()
-        .withMessage('The title of your question is required but none provided'),
+        .not().isEmpty()
+        .withMessage('The title of your question cannot be empty'),
     body('description')
-        .exists()
+        .not().isEmpty()
         .withMessage('The description of your question is required but none provided'),
 
 ];
@@ -51,9 +53,31 @@ const validatePostQuestion = [
 
 const validatePostAnswer = [
     body('answer')
-        .exists()
+        .not().isEmpty()
         .withMessage('Please provide an answer to this question'),
 ];
+
+
+const validatePostVote = [
+    body('vote')
+        .not().isEmpty()
+        .withMessage('Are you attempting to vote on this question? You have not passed a value yet')
+        .isBoolean()
+        .withMessage('Voting can only be true or false for upvote and downvote respectively')
+];
+
+const validateParam = (req, res, next) => {
+    try {
+        const validId = ObjectId(req.params.id);
+        req.params.id = validId;
+        next();
+    } catch (error){
+        res.status(422).json({
+            success: false, 
+            error: 'Id parameter must be a single String of 12 bytes or a string of 24 hex characters'
+        });
+    }
+};
 
 const validationHandler = (req, res, next) => {
     const errors = validationResult(req);
@@ -69,6 +93,8 @@ const validations = {
     validateLogin,
     validatePostQuestion,
     validatePostAnswer,
+    validatePostVote,
+    validateParam,
     validationHandler
 };
 
