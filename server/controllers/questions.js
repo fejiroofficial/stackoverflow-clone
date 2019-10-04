@@ -1,4 +1,5 @@
 import Question from '../models/question';
+import Vote from '../models/vote';
 
 /** Question controller class */
 class QuestionController {
@@ -13,7 +14,6 @@ static postQuestion(req, res) {
     try {
       Question.create({ title, description, user: req.user})
         .then(data => {
-          data.user.password = undefined;
           return res.status(201).json({
             success: true,
             message: 'Question has been posted on the channel',
@@ -45,6 +45,42 @@ static getAllQuestions(req, res) {
         });
     });
 }
+
+  /**
+ * @function voteQuestion
+ * @memberof QuestionController
+ * @static
+ */
+static voteQuestion(req, res) {
+  const { body: { vote } } = req;
+  Question.findById(req.params.id)
+    .then(question => {
+      if (!question) {
+        return res.status(404).json({
+          success: false,
+          message: 'This Question does not exist'
+        });
+      }
+      const options = { upsert: true, new: true, setDefaultsOnInsert: true, useFindAndModify: false };
+      Vote.findOneAndUpdate({ user: req.user, question}, {
+        vote: vote === 'true' ? 1 : -1
+      }, options)
+        .then(data => {
+          if (data) {
+            return res.status(201).json({
+              success: true,
+              message: 'Your vote has been recorded',
+              data
+            });
+          }
+        });
+    }). catch( err => {
+      res.status(500).send({
+        message: err.message || "Some error occurred while retrieving questions."
+      });
+    });
+}
+
 }
 
 export default QuestionController;

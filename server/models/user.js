@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt-nodejs';
 import mongoose from 'mongoose';
-const { Schema } = mongoose;
+const { Schema, model } = mongoose;
 
 const userSchema = Schema({
     // TODO: Define Schema
@@ -45,6 +45,16 @@ userSchema.pre('save', async function save(next) {
 });
 
 
+userSchema.set('toJSON', {
+    transform: (document, returnedUser) => {
+      returnedUser.id = returnedUser._id.toString();
+      delete returnedUser._id;
+      delete returnedUser.__v;
+      delete returnedUser.password
+    },
+  });
+
+
 userSchema.methods.comparePassword = function(passwordReq, userPassword) {
     const allowEntry = bcrypt.compareSync(passwordReq, userPassword);
     if (!allowEntry) {
@@ -55,4 +65,6 @@ userSchema.methods.comparePassword = function(passwordReq, userPassword) {
     }
 };
 
-module.exports = mongoose.model('User', userSchema);
+const User = model('User', userSchema);
+
+export default User;

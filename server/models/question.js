@@ -1,5 +1,18 @@
 import mongoose from 'mongoose';
-const { Schema } = mongoose;
+const { Schema, model } = mongoose;
+
+
+const calculateVotes = async (question) => {
+    const upVotes = await Vote.find({
+      question,
+      value: 1,
+    }).countDocuments();
+    const downVotes = await Vote.find({
+      question,
+      value: -1,
+    }).countDocuments();
+    return upVotes - downVotes;
+}
 
 const questionSchema = Schema({
     title: {
@@ -15,8 +28,28 @@ const questionSchema = Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
+    voteAggregate: {
+        type: Number,
+        upsert: true,
+        default: 0
+    }
 }, {
     timestamps: true
 });
 
-module.exports = mongoose.model('Question', questionSchema);
+questionSchema.set('toJSON', {
+    transform: (document, returnedQuestion) => {
+      returnedQuestion.id = returnedQuestion._id.toString();
+      delete returnedQuestion._id;
+      delete returnedQuestion.__v;
+    },
+  });
+  
+questionSchema.virtual('upvotes').get(() => {
+    return calculateVotes(this);
+  });
+
+
+const Question = model('Question', questionSchema);
+
+export default Question;

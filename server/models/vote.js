@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 const { Schema, model } = mongoose;
 
-const answerSchema = Schema({
-    answer: {
-        type: String,
+const voteRecordSchema = Schema({
+    vote: {
+        type: Number,
         required: true,
     },
     user: {
@@ -18,14 +18,14 @@ const answerSchema = Schema({
     timestamps: true
 });
 
-answerSchema.set('toJSON', {
-    transform: (document, returnedAnswer) => {
-        returnedAnswer.id = returnedAnswer._id.toString();
-      delete returnedAnswer._id;
-      delete returnedAnswer.__v;
+voteRecordSchema.set('toJSON', {
+    transform: (document, returnedVote) => {
+      returnedVote.id = returnedVote._id.toString();
+      delete returnedVote._id;
+      delete returnedVote.__v;
     },
   });
 
-const Answer = model('Answer', answerSchema);
+const Answer = model('Vote', voteRecordSchema);
 
 export default Answer;

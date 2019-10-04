@@ -10,27 +10,22 @@ class AnswerController {
  */
 static postAnswer(req, res) {
   const { body: { answer } } = req;
-  Question.findOne(req.param.id)
+  Question.findById(req.params.id)
     .then(question => {
       if (!question) {
         return res.status(404).json({
-          message: 'Question does not exit'
-        })
+          success: false,
+          message: 'This Question does not exit'
+        });
       }
       Answer.create({ answer, question, user: req.user})
         .then(data => {
-          data.user.password = undefined;
           return res.status(201).json({
             success: true,
             message: 'Your answer has been posted successfully',
             data,
           });
-        }).catch(err => {
-          return res.status(500).json({
-            success: false,
-            message: 'Something went wrong, your answer was not posted'
-          });
-        });
+        })
     }).catch(err => {
       return res.status(500).json({
         success: false,
@@ -38,6 +33,7 @@ static postAnswer(req, res) {
       });
     });
 }
+
 }
 
 export default AnswerController;
