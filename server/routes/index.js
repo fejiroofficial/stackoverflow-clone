@@ -44,6 +44,11 @@ router.post('/questions/:id/votes',
     validations.validateParam,
     validations.validationHandler,
     QuestionController.voteQuestion);
+
+router.post('/questions/:id/subscribe',
+    validations.validateParam,
+    validations.validationHandler,
+    QuestionController.subscribeQuestion);
 // router.put('/questions/:id/answers/:id', middlewares.validatePostAnswer, questionCtrl.updateAnswer);
 
 export default router;

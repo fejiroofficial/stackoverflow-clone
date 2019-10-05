@@ -36,7 +36,6 @@ const questionSchema = Schema({
 
 questionSchema.set('toJSON', {
     transform: (document, returnedQuestion) => {
-      delete returnedQuestion._id;
       delete returnedQuestion.__v;
     },
   });

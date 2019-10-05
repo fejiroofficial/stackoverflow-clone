@@ -1,5 +1,6 @@
 import Question from '../models/question';
 import Answer from '../models/answer';
+import checkSubscription from '../utils/subscription';
 
 /** Question controller class */
 class AnswerController {
@@ -20,6 +21,8 @@ static postAnswer(req, res) {
       }
       Answer.create({ answer, question, user: req.user})
         .then(data => {
+          // helper function to send mail goes here..
+          checkSubscription(question);
           return res.status(201).json({
             success: true,
             message: 'Your answer has been posted successfully',

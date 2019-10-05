@@ -1,5 +1,6 @@
 import Question from '../models/question';
 import Vote from '../models/vote';
+import Subscription from '../models/subscriber';
 
 /** Question controller class */
 class QuestionController {
@@ -73,13 +74,49 @@ static voteQuestion(req, res) {
             });
           }
         });
-    }). catch( err => {
+    }).catch( err => {
       res.status(500).send({
-        message: err.message || "Some error occurred while vote was being processed."
+        message: err.message || 'Some error occurred while vote was being processed.'
       });
     });
 }
 
+
+  /**
+ * @function subscribeQuestion
+ * @memberof QuestionController
+ * @static
+ */
+static subscribeQuestion(req, res) {
+  const user = req.user;
+  Question.findById(req.params.id)
+  .then(question => {
+    if (!question) {
+      return res.status(404).json({
+        success: false,
+        message: 'This Question does not exist'
+      });
+    }
+    Subscription.create({ user, question })
+      .then(() => {
+        return res.status(201).json({
+          'message': 'You have subscribed to receiving notification for this question'
+        });
+      }).catch(err => {
+        if (err.name === 'MongoError') {
+          Subscription.remove({ user, question }).exec();
+          return res.status(201).json({
+            'message': 'You have unsubscribed to receiving notification for this question'
+          });
+        }
+        res.send(err);
+      })
+  }).catch(err => {
+    res.status(500).send({
+      message: err.message || 'Subscription was not successful.'
+    });
+  });
+}
 }
 
 export default QuestionController;
