@@ -1,9 +1,11 @@
 import express from 'express';
 import UserController from '../controllers/users';
 import QuestionController from '../controllers/questions';
+import TextSearch from '../controllers/query';
 import AnswerController from '../controllers/answers';
 import validations from '../middleware/inputValidator';
 import verifyToken from '../middleware/verifyToken';
+
 
 
 const router = express.Router();
@@ -20,6 +22,8 @@ router.post('/auth/login',
 
 router.get('/questions', QuestionController.getAllQuestions);
 //router.get('/questions/:id', questionCtrl.getSingleQuestion);
+
+router.get('/search', TextSearch);
 
 router.use('*', verifyToken);
 

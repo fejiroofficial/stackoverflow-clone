@@ -4,6 +4,7 @@ const { Schema, model } = mongoose;
 const answerSchema = Schema({
     answer: {
         type: String,
+        index: true,
         required: true,
     },
     user: {
@@ -20,11 +21,12 @@ const answerSchema = Schema({
 
 answerSchema.set('toJSON', {
     transform: (document, returnedAnswer) => {
-        returnedAnswer.id = returnedAnswer._id.toString();
       delete returnedAnswer._id;
       delete returnedAnswer.__v;
     },
   });
+
+answerSchema.index({ answer: 'text' });
 
 const Answer = model('Answer', answerSchema);
 

@@ -6,11 +6,13 @@ const userSchema = Schema({
     // TODO: Define Schema
     firstName: {
         type: String,
+        index: true,
         required: true,
         maxlength: 50
     },
     lastName: {
         type: String,
+        index: true,
         required: true,
         maxlength: 50
     },
@@ -47,12 +49,14 @@ userSchema.pre('save', async function save(next) {
 
 userSchema.set('toJSON', {
     transform: (document, returnedUser) => {
-      returnedUser.id = returnedUser._id.toString();
       delete returnedUser._id;
       delete returnedUser.__v;
-      delete returnedUser.password
+      delete returnedUser.password;
     },
   });
+
+
+userSchema.index({ firstName: 'text', lastName: 'text' });
 
 
 userSchema.methods.comparePassword = function(passwordReq, userPassword) {

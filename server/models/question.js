@@ -17,21 +17,18 @@ const calculateVotes = async (question) => {
 const questionSchema = Schema({
     title: {
         type: String,
+        index: true,
         required: true,
         maxlength: 50
     },
     description: {
         type: String,
+        index: true,
         required: true,
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    },
-    voteAggregate: {
-        type: Number,
-        upsert: true,
-        default: 0
     }
 }, {
     timestamps: true
@@ -39,11 +36,12 @@ const questionSchema = Schema({
 
 questionSchema.set('toJSON', {
     transform: (document, returnedQuestion) => {
-      returnedQuestion.id = returnedQuestion._id.toString();
       delete returnedQuestion._id;
       delete returnedQuestion.__v;
     },
   });
+
+questionSchema.index({ title: 'text', description: 'text' });
   
 questionSchema.virtual('upvotes').get(() => {
     return calculateVotes(this);

@@ -8,7 +8,6 @@ class QuestionController {
  * @memberof QuestionController
  * @static
  */
-
 static postQuestion(req, res) {
     const { body: { title, description } } = req;
     try {
@@ -76,7 +75,7 @@ static voteQuestion(req, res) {
         });
     }). catch( err => {
       res.status(500).send({
-        message: err.message || "Some error occurred while retrieving questions."
+        message: err.message || "Some error occurred while vote was being processed."
       });
     });
 }
