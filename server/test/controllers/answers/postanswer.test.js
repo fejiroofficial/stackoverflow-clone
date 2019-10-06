@@ -1,7 +1,5 @@
 import chai, { expect } from 'chai';
-import User from '../../../models/user';
 import chaiHttp from 'chai-http';
-import jwt from 'jsonwebtoken';
 import app from '../../../app';
 
 chai.use(chaiHttp);
@@ -22,7 +20,7 @@ describe('Post answer', () => {
             .set('Authorization', token)
             .send({ title: 'jjjjd', description: 'jfjfj'});
         questionId = question.body.data._id;
-    })
+    });
 
     const newAnswer = {
         answer: 'A new answer right here',
