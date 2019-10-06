@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/user';
+import responseHandler from '../utils/responseHelper';
 
 /** user controller class */
 class UserController {
@@ -17,13 +18,8 @@ static signup(req, res) {
             lastname: user.lastName,
             email: user.email,
           }, process.env.SECRET_KEY, { expiresIn: '24hrs' });
-        return res.status(201).json({
-            success: true,
-            message: 'Account created successfully',
-            data: {
-                token
-            }
-        });
+        const message =  'Account created successfully';
+        return responseHandler(res, 201, undefined, message, { token });
     });
 }
 
@@ -37,32 +33,19 @@ static login(req, res) {
 
     User.findOne({ email })
         .then(user => {
-            if (!user) {
-                return res.status(401).json({
-                    message: 'Incorrect Email or password'
-                });
-            }
-            user.comparePassword(password, user.password);
+            let message = 'Incorrect Email or password';
+            if (!user) return responseHandler(res, 401, false, message);
+            const err = user.comparePassword(res, password, user.password);
+            if (err) return responseHandler(res, 401, false, err);
             const token = jwt.sign({
                 id: user.id,
                 firstname: user.firstName,
                 lastname: user.lastName,
                 email: user.email,
               }, process.env.SECRET_KEY, { expiresIn: '24hrs' });
-
-            return res.status(201).json({
-                success: true,
-                message: 'Login successful',
-                data: {
-                    token
-                }
-            });
-        }).catch(err => {
-            return res.status(500).json({
-                error: 'An error occured!',
-                success: false
-            });
-        });
+            message = 'Login was successful';
+            return responseHandler(res, 201, undefined, message, { token });
+        }).catch(error => responseHandler(res, 500, false, error.message));
 }
 
 }

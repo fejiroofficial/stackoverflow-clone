@@ -1,6 +1,7 @@
 import Question from '../models/question';
 import Answer from '../models/answer';
 import checkSubscription from '../utils/subscription';
+import responseHandler from '../utils/responseHelper';
 
 /** Question controller class */
 class AnswerController {
@@ -14,27 +15,16 @@ static postAnswer(req, res) {
   Question.findById(req.params.id)
     .then(question => {
       if (!question) {
-        return res.status(404).json({
-          success: false,
-          message: 'This Question does not exit'
-        });
+        const message = 'This Question does not exist';
+        return responseHandler(res, 404, false, message);
       }
       Answer.create({ answer, question, user: req.user})
         .then(data => {
-          // helper function to send mail goes here..
           checkSubscription(question);
-          return res.status(201).json({
-            success: true,
-            message: 'Your answer has been posted successfully',
-            data,
-          });
-        })
-    }).catch(err => {
-      return res.status(500).json({
-        success: false,
-        message: 'An error occured'
-      });
-    });
+          const message = 'Your answer has been posted successfully';
+          responseHandler(res, 201, undefined, message, data);
+        });
+    }).catch(error => responseHandler(res, 500, false, error.message));
 }
 
 }
