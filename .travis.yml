@@ -1,0 +1,27 @@
+language: node_js
+
+node_js: 
+  - node
+
+env:
+  global:
+    - SECRET_KEY=fejiroofficial
+    - DB_PASS=fejiro21
+    - NODE_ENV=test
+
+cache: 
+  directories: 
+    - "node_modules"    
+
+rvm:
+  - 2.2.0
+
+services: 
+  - mongodb 
+
+script:
+  - npm test
+
+after_script:
+  - npm run coverage
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT

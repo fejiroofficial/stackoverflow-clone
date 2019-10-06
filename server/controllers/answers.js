@@ -3,7 +3,7 @@ import Answer from '../models/answer';
 import checkSubscription from '../utils/subscription';
 import responseHandler from '../utils/responseHelper';
 
-/** Question controller class */
+/** Answer controller class */
 class AnswerController {
   /**
  * @function postAnswer

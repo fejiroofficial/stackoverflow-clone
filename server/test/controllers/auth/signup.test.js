@@ -31,6 +31,7 @@ describe('User signup', () => {
             return clearDB();
         }
     });
+
   it('if email is not provided', (done) => {
     let user = {
       id: 1,

@@ -21,7 +21,6 @@ router.post('/auth/login',
     UserController.login);
 
 router.get('/questions', QuestionController.getAllQuestions);
-//router.get('/questions/:id', questionCtrl.getSingleQuestion);
 
 router.get('/search', TextSearch);
 
@@ -32,7 +31,6 @@ router.post('/questions',
     validations.validationHandler,
     QuestionController.postQuestion);
 
-// router.delete('/questions/:id', questionCtrl.deleteQuestion);
 router.post('/questions/:id/answers',
     validations.validatePostAnswer,
     validations.validateParam,
@@ -49,6 +47,5 @@ router.post('/questions/:id/subscribe',
     validations.validateParam,
     validations.validationHandler,
     QuestionController.subscribeQuestion);
-// router.put('/questions/:id/answers/:id', middlewares.validatePostAnswer, questionCtrl.updateAnswer);
 
 export default router;
