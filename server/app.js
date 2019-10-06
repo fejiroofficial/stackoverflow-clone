@@ -21,8 +21,6 @@ app.get('/', (req, res) => {
     });
   });
 
-// app.use('/api/v1', router);
-
 mongoose.Promise = global.Promise;
 
 // Connecting to the database

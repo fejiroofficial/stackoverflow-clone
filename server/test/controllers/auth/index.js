@@ -1,2 +1,2 @@
-import './login.test';
 import './signup.test';
+import './login.test';
