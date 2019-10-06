@@ -59,13 +59,10 @@ userSchema.set('toJSON', {
 userSchema.index({ firstName: 'text', lastName: 'text' });
 
 
-userSchema.methods.comparePassword = function(passwordReq, userPassword) {
+userSchema.methods.comparePassword = function(response, passwordReq, userPassword) {
     const allowEntry = bcrypt.compareSync(passwordReq, userPassword);
     if (!allowEntry) {
-      return res.status(401).json({
-        success: 'false',
-        message: 'You have entered an invalid email or password',
-      });
+      return 'Incorrect Email or password';
     }
 };
 
