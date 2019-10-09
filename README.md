@@ -1,7 +1,7 @@
 # Stackoverflow-clone
 
 [![Build Status](https://travis-ci.com/fejiroofficial/stackoverflow-clone.svg?branch=master)](https://travis-ci.com/fejiroofficial/stackoverflow-clone)
-[![Coverage Status](https://coveralls.io/repos/github/fejiroofficial/stackoverflow-clone/badge.svg?branch=master)](https://coveralls.io/github/fejiroofficial/stackoverflow-clone?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/fejiroofficial/stackoverflow-clone/badge.svg?branch=ch-dockerize-application)](https://coveralls.io/github/fejiroofficial/stackoverflow-clone?branch=ch-dockerize-application)
 [![Maintainability](https://api.codeclimate.com/v1/badges/cbfc19c558897560d6fe/maintainability)](https://codeclimate.com/github/fejiroofficial/stackoverflow-clone/maintainability)
 
 Stackoverflow-clone is a platform where people can ask questions and provide answers.
@@ -72,4 +72,8 @@ npm start
 - GET `api/v1/questions` Use this route to view all questions.
 
 - GET `api/v1/search?question|answer|user` Use this route to search for either questions or answers or users but not both.
+
+
+## API 
+ApI for this app is available at [`stackoverflow-clone`](https://app-run-host.herokuapp.com/)
 

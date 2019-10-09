@@ -1,0 +1,5 @@
+node_modules
+npm-debug.log
+.vscode
+.env_sample
+server/tests/

@@ -11,7 +11,7 @@ env:
 
 cache: 
   directories: 
-    - "node_modules"    
+    - node_modules    
 
 rvm:
   - 2.2.0
