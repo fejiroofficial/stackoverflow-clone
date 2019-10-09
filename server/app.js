@@ -1,12 +1,14 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
-import dbConfig from './config/config.js';
 import router from './routes';
 
 
-const app = express();
 dotenv.config();
+
+const app = express();
+
+const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
@@ -17,26 +19,26 @@ app.use('/api/v1', router);
 app.get('/', (req, res) => {
     res.status(200).json({
       success: "true",
-      message: "Welcome to stackoverflow-clone"
+      message: 'Welcome to stackoverflow-clone'
     });
   });
 
 mongoose.Promise = global.Promise;
 
 // Connecting to the database
-mongoose.connect(dbConfig.url, {
+mongoose.connect(process.env.MONGODB, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
-    console.log("Successfully connected to the database");    
+    console.log('Successfully connected to the database');    
 }).catch(err => {
     console.log('Could not connect to the database. Exiting now...', err);
     process.exit();
 });
 
 // listen for requests
-app.listen(3000, () => {
-    console.log("Server is listening on port 3000");
+app.listen(port, () => {
+    console.log('Server is listening on port 3000');
 });
 
 export default app;
